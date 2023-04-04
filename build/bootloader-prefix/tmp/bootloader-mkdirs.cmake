@@ -5,18 +5,18 @@ cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
   "/home/chris/esp/esp-idf/components/bootloader/subproject"
-  "/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader"
-  "/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix"
-  "/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/tmp"
-  "/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp"
-  "/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src"
-  "/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp"
+  "/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader"
+  "/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix"
+  "/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/tmp"
+  "/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp"
+  "/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src"
+  "/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
 endif()

@@ -1,13 +1,13 @@
 # Target labels
  bootloader
 # Source files and their labels
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/CMakeFiles/bootloader
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/CMakeFiles/bootloader.rule
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/CMakeFiles/bootloader-complete.rule
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
-/home/chris/Documents/code/esp32/esp32-nunchuck/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/CMakeFiles/bootloader
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/CMakeFiles/bootloader.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/CMakeFiles/bootloader-complete.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/chris/Documents/code/esp32/nunchuck-esp32/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
