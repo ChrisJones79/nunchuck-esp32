@@ -1,0 +1,9 @@
+{
+    "idf.adapterTargetName": "esp32s3",
+    "idf.espIdfPathWin": "c:\\Espressif\\frameworks\\esp-idf",
+    "idf.toolsPathWin": "c:\\Espressif",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-bridge.cfg"
+    ],
+    "idf.portWin": "COM3"
+}
