@@ -38,6 +38,6 @@ void app_main(void)
         printf("/*ChrisFinallyDidIt,%4.2f,%4.2f,%4.2f,%d,%d,%d,%d*/\n", ax, ay, az,
                data.analogX, data.analogY,
                data.buttonC, data.buttonZ);
-        printf("%d\n", data.accelZ);
+
     }
 }
