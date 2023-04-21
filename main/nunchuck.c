@@ -1,4 +1,4 @@
-#include "i2c0.h"
+#include "nunchuck.h"
 
 static const i2c_mode_t I2C_mode = I2C_MODE_MASTER;
 static const i2c_port_t I2C_port = I2C_NUM_0;
@@ -41,16 +41,6 @@ esp_err_t init_i2c(void)
  * The startup sequence is sent to the nunchuck, then the first update
  * is performed.
  */
-void init_nunchuck(void)
-{
-    _nunchuck_sendByte_to_addr(0xf0, 0x55);
-    _nunchuck_sendByte_to_addr(0xfb, 0x00);
-
-    send_byte(0xFA);
-
-    nunchuck_update();
-}
-
 void init_nunchuck(void)
 {
     _nunchuck_sendByte_to_addr(0xf0, 0x55);

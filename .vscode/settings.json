@@ -4,5 +4,10 @@
     "idf.openOcdConfigs": [
         "board/esp32s3-bridge.cfg"
     ],
-    "idf.flashType": "UART"
+    "idf.flashType": "UART",
+    "files.associations": {
+        "*.lock": "toml",
+        "task.h": "c",
+        "esp_timer.h": "c"
+    }
 }

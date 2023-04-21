@@ -174,16 +174,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/esp_lcd/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/espressif__esp_lcd_touch/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
   include("/home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/main/cmake_install.cmake")
 endif()
 

@@ -6366,62 +6366,6 @@
                         "children": [
                             {
                                 "children": [],
-                                "depends_on": null,
-                                "help": "LCD driver allocates an internal buffer to transform the data into a proper format, because of\nthe endian order mismatch. This option is to set the size of the buffer, in bytes.",
-                                "id": "LCD_PANEL_IO_FORMAT_BUF_SIZE",
-                                "name": "LCD_PANEL_IO_FORMAT_BUF_SIZE",
-                                "range": null,
-                                "title": "LCD panel io format buffer size",
-                                "type": "int"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": null,
-                                "help": "Wether to enable the debug log message for LCD driver.\nNote that, this option only controls the LCD driver log, won't affect other drivers.",
-                                "id": "LCD_ENABLE_DEBUG_LOG",
-                                "name": "LCD_ENABLE_DEBUG_LOG",
-                                "range": null,
-                                "title": "Enable debug log",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "SOC_LCD_RGB_SUPPORTED",
-                                "help": "Ensure the LCD interrupt is IRAM-Safe by allowing the interrupt handler to be\nexecutable when the cache is disabled (e.g. SPI Flash write).\nIf you want the LCD driver to keep flushing the screen even when cache ops disabled,\nyou can enable this option. Note, this will also increase the IRAM usage.",
-                                "id": "LCD_RGB_ISR_IRAM_SAFE",
-                                "name": "LCD_RGB_ISR_IRAM_SAFE",
-                                "range": null,
-                                "title": "RGB LCD ISR IRAM-Safe",
-                                "type": "bool"
-                            },
-                            {
-                                "children": [],
-                                "depends_on": "SOC_LCD_RGB_SUPPORTED",
-                                "help": "Reset the GDMA channel every VBlank to stop permanent desyncs from happening.\nOnly need to enable it when in your application, the DMA can't deliver data\nas fast as the LCD consumes it.",
-                                "id": "LCD_RGB_RESTART_IN_VSYNC",
-                                "name": "LCD_RGB_RESTART_IN_VSYNC",
-                                "range": null,
-                                "title": "Restart transmission in VSYNC",
-                                "type": "bool"
-                            }
-                        ],
-                        "depends_on": null,
-                        "id": "component-config-lcd-and-touch-panel-lcd-peripheral-configuration",
-                        "title": "LCD Peripheral Configuration",
-                        "type": "menu"
-                    }
-                ],
-                "depends_on": null,
-                "id": "component-config-lcd-and-touch-panel",
-                "title": "LCD and Touch Panel",
-                "type": "menu"
-            },
-            {
-                "children": [
-                    {
-                        "children": [
-                            {
-                                "children": [],
                                 "depends_on": "PM_ENABLE",
                                 "help": "If enabled, startup code configures dynamic frequency scaling.\nMax CPU frequency is set to DEFAULT_CPU_FREQ_MHZ setting,\nmin frequency is set to XTAL frequency.\nIf disabled, DFS will not be active until the application\nconfigures it using esp_pm_configure function.",
                                 "id": "PM_DFS_INIT_AUTO",
@@ -10990,40 +10934,6 @@
                 "depends_on": null,
                 "id": "component-config-spi-flash-driver",
                 "title": "SPI Flash driver",
-                "type": "menu"
-            },
-            {
-                "children": [
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "ESP_LCD_TOUCH_MAX_POINTS",
-                        "name": "ESP_LCD_TOUCH_MAX_POINTS",
-                        "range": [
-                            1,
-                            10
-                        ],
-                        "title": "Maximum count of the touch points",
-                        "type": "int"
-                    },
-                    {
-                        "children": [],
-                        "depends_on": null,
-                        "help": null,
-                        "id": "ESP_LCD_TOUCH_MAX_BUTTONS",
-                        "name": "ESP_LCD_TOUCH_MAX_BUTTONS",
-                        "range": [
-                            0,
-                            10
-                        ],
-                        "title": "Maximum count of the touch buttons supported",
-                        "type": "int"
-                    }
-                ],
-                "depends_on": null,
-                "id": "component-config-esp-lcd-touch",
-                "title": "ESP LCD TOUCH",
                 "type": "menu"
             }
         ],

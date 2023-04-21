@@ -22,6 +22,4 @@
 /home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/freertos/libfreertos.a
 /home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/newlib/libnewlib.a
 /home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/cxx/libcxx.a
-/home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/esp_lcd/libesp_lcd.a
-/home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/espressif__esp_lcd_touch/libespressif__esp_lcd_touch.a
 /home/chris/Documents/code/esp32/nunchuck-esp32/build/esp-idf/main/libmain.a
