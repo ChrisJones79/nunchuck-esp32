@@ -1,5 +1,8 @@
 #pragma once
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/timers.h"
+#include "freertos/task.h"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "driver/i2c.h"
@@ -12,6 +15,9 @@
 
 #define I2C_NUNCHCUCK_ADDR 0x52
 #define I2C_NUNCHUCK_RX 6
+
+#define NINJA_STACK_SIZE 1980
+const TickType_t xFrequency = 10;
 
 typedef struct nunchuck_data{
     int analogX;
@@ -26,12 +32,6 @@ typedef struct nunchuck_data{
 
 } nunchuck_data_t;
 
-esp_err_t init_i2c(void);
-
 void init_nunchuck(void);
 
 nunchuck_data_t nunchuck_update(void);
-
-void _nunchuck_sendByte_to_addr(uint8_t addr, uint8_t data);
-
-void send_byte(uint8_t data);

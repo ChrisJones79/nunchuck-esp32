@@ -2,6 +2,22 @@
 
 static const i2c_mode_t I2C_mode = I2C_MODE_MASTER;
 static const i2c_port_t I2C_port = I2C_NUM_0;
+static TaskHandle_t xNunchuckTaskHandle = NULL;
+
+extern nunchuck_data_t data;
+
+
+static esp_err_t init_i2c(void);
+
+static void _nunchuck_sendByte_to_addr(uint8_t addr, uint8_t data);
+
+static void send_byte(uint8_t data);
+
+static void createNunchuckTask(void);
+
+static void vUpdateNunchuckPeriodic(void *pvParameters);
+
+static void destroyNunchuckTask(void);
 
 /*
  * Initialize the I2C bus.
@@ -13,7 +29,7 @@ static const i2c_port_t I2C_port = I2C_NUM_0;
  * - Return the result of the driver installation
  */
 
-esp_err_t init_i2c(void)
+static esp_err_t init_i2c(void)
 {
 
     const i2c_config_t conf = {
@@ -43,12 +59,21 @@ esp_err_t init_i2c(void)
  */
 void init_nunchuck(void)
 {
+    // Initialize the I2C bus from the nunchuck init function
+    esp_err_t ret = init_i2c();
+
+    if (ret != ESP_OK)
+    {
+        ESP_LOGE("init_nunchuck", "i2c_driver install fail %s", esp_err_to_name(ret));
+    }
     _nunchuck_sendByte_to_addr(0xf0, 0x55);
     _nunchuck_sendByte_to_addr(0xfb, 0x00);
 
     send_byte(0xFA);
 
     nunchuck_update();
+
+    createNunchuckTask();
 }
 
 /*
@@ -60,7 +85,6 @@ void init_nunchuck(void)
  * - If the I2C transaction succeeds, return the data
  *
  */
-
 nunchuck_data_t nunchuck_update(void)
 {
     uint8_t rx_buf[] = {0, 0, 0, 0, 0, 0};
@@ -87,6 +111,8 @@ nunchuck_data_t nunchuck_update(void)
 
     i2c_cmd_link_delete(cmd);
 
+    // Note that the buttons are inverted,
+    // that is unpressed they are 1 and pressed 0
     nunchuck_data_t dat = {
         .analogX = rx_buf[0],
         .analogY = rx_buf[1],
@@ -114,7 +140,7 @@ nunchuck_data_t nunchuck_update(void)
  * - If the I2C transaction succeeds, return the result
  */
 
-void _nunchuck_sendByte_to_addr(uint8_t addr, uint8_t data)
+static void _nunchuck_sendByte_to_addr(uint8_t addr, uint8_t data)
 {
     // uint8_t write_buf[] = {addr, data};
     esp_err_t ret = ESP_OK;
@@ -140,7 +166,7 @@ void _nunchuck_sendByte_to_addr(uint8_t addr, uint8_t data)
     i2c_cmd_link_delete(cmd);
 }
 
-void send_byte(uint8_t data)
+static void send_byte(uint8_t data)
 {
     esp_err_t ret = ESP_OK;
 
@@ -161,4 +187,73 @@ void send_byte(uint8_t data)
     }
 
     i2c_cmd_link_delete(cmd);
+}
+
+/* Update the nunchuck data periodically */
+static void vUpdateNunchuckPeriodic(void *pvParameters)
+{
+    // Initialise the xLastWakeTime variable with the current time.
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+
+    /* Inspect our own high water mark on entering the task. */
+    // UBaseType_t uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
+    // printf("High water mark: %d\n", uxHighWaterMark);
+    long long int tstart;
+    long long int tend;
+
+    for (;;)
+    {
+        tstart = esp_timer_get_time();
+        // Wait for the next cycle.
+        printf("Timer before delayUntil: %lld μs\n", tstart);
+
+        // vTaskDelayUntil(&xLastWakeTime, xFrequency);
+        xTaskDelayUntil(&xLastWakeTime, xFrequency);
+        tend = esp_timer_get_time();
+        printf("Timer after delayUntil %lld with frequency set to %ld\n", tend, xFrequency);
+        data = nunchuck_update();
+        // printf("Timer after nunchuck_update: %lld μs\n", esp_timer_get_time());
+
+        /*
+        Calling the function will have used some stack space, we would
+        therefore now expect uxTaskGetStackHighWaterMark() to return a
+        value lower than when it was called on entering the task.
+         */
+        // uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
+        // printf("High water mark after update: %d\n", uxHighWaterMark);
+    }
+}
+
+/* Function that creates a task. */
+static void createNunchuckTask(void)
+{
+    printf("Creating nunchuck task ... ");
+    BaseType_t xReturned;
+    TaskHandle_t xHandle = NULL;
+
+    /* Create the task, storing the handle. */
+    xReturned = xTaskCreate(
+        vUpdateNunchuckPeriodic, /* Function that implements the task. */
+        "NunchuckUpdate",        /* Text name for the task. */
+        NINJA_STACK_SIZE,        /* Stack size in words, not bytes. */
+        (void *)NULL,            /* Parameter passed into the task. */
+        tskIDLE_PRIORITY,        /* Priority at which the task is created. */
+        &xNunchuckTaskHandle);   /* Used to pass out the created task's handle. */
+
+    if (xNunchuckTaskHandle == pdPASS)
+    {
+        printf("successfully\n");
+    }
+    else
+    {
+        printf("unsuccessfully\n");
+    }
+}
+
+/*
+ * This task takes a task handle and destroys the task.
+ */
+static void destroyNunchuckTask(void)
+{
+    vTaskDelete(xNunchuckTaskHandle);
 }
