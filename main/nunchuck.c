@@ -1,11 +1,26 @@
+#include "freertos/FreeRTOS.h"
+#include "freertos/timers.h"
+#include "freertos/task.h"
+
 #include "nunchuck.h"
+
+#define I2C_FCLK 100000
+#define I2C_NUM 0
+#define I2C_MASTER_TX_BUF_DISABLE 0
+#define I2C_MASTER_RX_BUF_DISABLE 0
+#define I2C_TIMEOUT_MS 1000
+
+#define I2C_NUNCHCUCK_ADDR 0x52
+#define I2C_NUNCHUCK_RX 6
+
+#define NINJA_STACK_SIZE 1980
+const TickType_t xFrequency = 100;
 
 static const i2c_mode_t I2C_mode = I2C_MODE_MASTER;
 static const i2c_port_t I2C_port = I2C_NUM_0;
 static TaskHandle_t xNunchuckTaskHandle = NULL;
 
 extern nunchuck_data_t data;
-
 
 static esp_err_t init_i2c(void);
 
@@ -17,7 +32,7 @@ static void createNunchuckTask(void);
 
 static void vUpdateNunchuckPeriodic(void *pvParameters);
 
-static void destroyNunchuckTask(void);
+// static void destroyNunchuckTask(void);
 
 /*
  * Initialize the I2C bus.
@@ -34,8 +49,8 @@ static esp_err_t init_i2c(void)
 
     const i2c_config_t conf = {
         .mode = I2C_mode,
-        .sda_io_num = 2,
-        .scl_io_num = 1,
+        .sda_io_num = 4,
+        .scl_io_num = 5,
         .sda_pullup_en = GPIO_PULLUP_ENABLE,
         .scl_pullup_en = GPIO_PULLUP_ENABLE,
         .master.clk_speed = I2C_FCLK,
@@ -124,6 +139,11 @@ nunchuck_data_t nunchuck_update(void)
 
     send_byte(0x00);
 
+    printf("%d, %d, %d, %d, %d, %d, %d\n",
+           data.accelX, data.accelY, data.accelZ,
+           data.analogX, data.analogY,
+           data.buttonC, data.buttonZ);
+
     return dat;
 }
 
@@ -198,19 +218,19 @@ static void vUpdateNunchuckPeriodic(void *pvParameters)
     /* Inspect our own high water mark on entering the task. */
     // UBaseType_t uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
     // printf("High water mark: %d\n", uxHighWaterMark);
-    long long int tstart;
-    long long int tend;
+    // long long int tstart;
+    // long long int tend;
 
     for (;;)
     {
-        tstart = esp_timer_get_time();
+        // tstart = esp_timer_get_time();
         // Wait for the next cycle.
-        printf("Timer before delayUntil: %lld μs\n", tstart);
+        // printf("Timer before delayUntil: %lld μs\n", tstart);
 
         // vTaskDelayUntil(&xLastWakeTime, xFrequency);
-        xTaskDelayUntil(&xLastWakeTime, xFrequency);
-        tend = esp_timer_get_time();
-        printf("Timer after delayUntil %lld with frequency set to %ld\n", tend, xFrequency);
+        vTaskDelayUntil(&xLastWakeTime, xFrequency);
+        // tend = esp_timer_get_time();
+        // printf("Timer after delayUntil %lld with frequency set to %ld\n", tend, xFrequency);
         data = nunchuck_update();
         // printf("Timer after nunchuck_update: %lld μs\n", esp_timer_get_time());
 
@@ -229,7 +249,6 @@ static void createNunchuckTask(void)
 {
     printf("Creating nunchuck task ... ");
     BaseType_t xReturned;
-    TaskHandle_t xHandle = NULL;
 
     /* Create the task, storing the handle. */
     xReturned = xTaskCreate(
@@ -240,7 +259,7 @@ static void createNunchuckTask(void)
         tskIDLE_PRIORITY,        /* Priority at which the task is created. */
         &xNunchuckTaskHandle);   /* Used to pass out the created task's handle. */
 
-    if (xNunchuckTaskHandle == pdPASS)
+    if (xReturned == pdPASS)
     {
         printf("successfully\n");
     }
@@ -253,7 +272,7 @@ static void createNunchuckTask(void)
 /*
  * This task takes a task handle and destroys the task.
  */
-static void destroyNunchuckTask(void)
-{
-    vTaskDelete(xNunchuckTaskHandle);
-}
+// static void destroyNunchuckTask(void)
+// {
+//     vTaskDelete(xNunchuckTaskHandle);
+// }
